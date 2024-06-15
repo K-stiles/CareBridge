@@ -1,0 +1,47 @@
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# TEMP
+# deserialize.entity.ts
+# check_entity.ts
+# NOTES.md
+
+# local env files
+# .env
+# .env.production
+# .env.development
+jwtRS256.key
+jwtRS256.key.pub
+pagination.ts
+
+# testing
+/coverage
+
+
+# production
+/dist
+/logs
+ppackage.json
+package-lock.json
+
+
+# misc
+.DS_Store
+*.pem
+
+
+# debug
+yarn.lock
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+
+
+
+
+# typescript
+*.tsbuildinfo
+

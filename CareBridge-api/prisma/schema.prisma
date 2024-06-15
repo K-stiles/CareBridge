@@ -1,0 +1,327 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  PATIENT_200
+  DOCTOR_600
+  ADMIN_1050
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
+
+enum Terms {
+  ACCEPTED
+  DECLINED
+}
+
+enum CommunicationMedium {
+  VOICE_CALL
+  VIDEO_CALL
+  CHAT
+}
+
+enum PaymentMode {
+  CREDIT_CARD
+  PAYPAL
+  MOBILE_MONEY
+  CASH
+}
+
+enum PaymentStatus {
+  SUCCESSFUL
+  FAILED
+}
+
+/// PATIENT MODEL
+model Patient {
+  id       String @id @default(uuid())
+  email    String @unique // make email lowercase
+  fullname String
+  password String
+
+  phone      String? @unique
+  age        Int     @default(0)
+  gender     Gender? @default(OTHER)
+  profile    String  @default("")
+  role       Role    @default(PATIENT_200)
+  isVerified Boolean @default(false)
+  terms      Terms   @default(DECLINED)
+
+  medicalInfo MedicalInfo?
+
+  session Session[]
+
+  prescriptions Prescription[]
+
+  appointment Appointment[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  disabled  Boolean  @default(false)
+
+  @@unique([fullname, email])
+  @@index([email, fullname])
+}
+
+/// DOCTOR MODEL
+model Doctor {
+  id       String @id @default(uuid())
+  email    String @unique // make email lowercase
+  fullname String
+  prn      String
+
+  specializationId String?
+  specialization   Specialization? @relation(fields: [specializationId], references: [id])
+
+  age           Int       @default(0)
+  gender        Gender?   @default(OTHER)
+  yoq           DateTime?
+  yor           DateTime?
+  qualification String?
+  profile       String    @default("")
+  role          Role      @default(DOCTOR_600)
+  isVerified    Boolean   @default(false)
+  terms         Terms     @default(DECLINED)
+
+  serviceId String?
+  service   Service? @relation(fields: [serviceId], references: [id])
+
+  prescriptions Prescription[]
+
+  session Session[]
+
+  appointment Appointment[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  disabled  Boolean  @default(false)
+
+  @@unique([fullname, email])
+  @@index([email, fullname])
+}
+
+/// ADMIN MODEL
+model Administrator {
+  id       String  @id @default(uuid())
+  fullname String // make name lowercase
+  email    String  @unique // make email lowercase
+  password String
+  phone    String? @unique
+  age      Int?
+  gender   Gender? @default(OTHER)
+  role     Role    @default(ADMIN_1050)
+  profile  String  @default("")
+
+  session Session[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  disabled  Boolean  @default(false)
+}
+
+/// SESSION MODEL
+model Session {
+  id        String  @id @default(uuid())
+  valid     Boolean @default(true)
+  userAgent String  @default("")
+
+  doctorId String?
+  doctor   Doctor? @relation(fields: [doctorId], references: [id])
+
+  patientId String?
+  patient   Patient? @relation(fields: [patientId], references: [id])
+
+  adminId String?
+  admin   Administrator? @relation(fields: [adminId], references: [id])
+
+  removed Boolean @default(false)
+}
+
+model Specialization {
+  id   String @id @default(uuid())
+  // name    String   @db.VarChar(256)
+  name String
+
+  doctors Doctor[]
+
+  removed   Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+/// MEDICALINFO MODEL
+model MedicalInfo {
+  id String @id @default(uuid())
+
+  patientId String?  @unique
+  patient   Patient? @relation(fields: [patientId], references: [id])
+
+  height      Float?
+  weight      Float?
+  dateOfBirth DateTime?
+  location    String?
+
+  chronicDiseaseStatus Boolean @default(false)
+  chronicDiseaseInfo   String?
+
+  allergiesStatus Boolean @default(false)
+  allergiesInfo   String?
+
+  medicalConditionStatus Boolean @default(false)
+  medicalConditionInfo   String?
+
+  removed Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+/// SERVICE MODEL
+model Service {
+  id   String @id @default(uuid())
+  name String
+
+  doctors Doctor[]
+
+  appointment Appointment[]
+
+  removed Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+/// APPOINTMENT MODEL
+model Appointment {
+  id            String              @id @default(uuid())
+  complaint     String
+  scheduledDate DateTime
+  medium        CommunicationMedium @default(CHAT)
+
+  payment Payment?
+
+  patientId String?
+  patient   Patient? @relation(fields: [patientId], references: [id])
+
+  doctorId String?
+  doctor   Doctor? @relation(fields: [doctorId], references: [id])
+
+  serviceId String?
+  service   Service? @relation(fields: [serviceId], references: [id])
+
+  removed Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+/// PAYMENT
+model Payment {
+  id            String        @id @default(uuid())
+  amount        Float
+  paymentMode   PaymentMode
+  paymentStatus PaymentStatus
+
+  appointmentId String?      @unique
+  appointment   Appointment? @relation(fields: [appointmentId], references: [id])
+  removed       Boolean      @default(false)
+
+  paidOn    DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // name          String
+  // mobile        String
+  // email         String?
+  // orderId       String
+  // currency      String  @default("GHS")
+  // orderDesc     String
+  // merClientAcct String?
+  // feeTypeCode   String? @default("GENERALPAYMENT")
+  // mobileNetwork String?
+}
+
+/// LAB
+model Lab {
+  id           String  @id @default(uuid())
+  name         String
+  prescription String
+  removed      Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+/// PHARMACY
+model Pharmacy {
+  id      String  @id @default(uuid())
+  name    String
+  // drug    Drug[]
+  removed Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+/// NB:
+/// A prescription is written by one doctor for one patient, and it can contains a list of drugs. 
+/// However, a patient can have multiple prescriptions, a doctor can write multiple prescriptions, and a drug can be part of multiple prescriptions.
+/// prescription can contain multiple drugs.
+/// EXPLANATION
+/// The drugs[] field in the Prescription model represents a many-to-many relationship with drugs.
+/// you can associate multiple drugs with a single prescription and vice versa.
+model Drug {
+  id     String @id @default(uuid())
+  name   String
+  dosage String
+
+  // image String?
+
+  prescriptions Prescription[]
+
+  removed   Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+/// NB:
+/// A prescription is written by one doctor for one patient, and it can contains a list of drugs. 
+/// However, a patient can have multiple prescriptions, a doctor can write multiple prescriptions, and a drug can be part of multiple prescriptions.
+/// prescription can contain multiple drugs.
+/// EXPLANATION
+/// The drugs[] field in the Prescription model represents a many-to-many relationship with drugs.
+/// you can associate multiple drugs with a single prescription and vice versa.
+model Prescription {
+  id          String  @id @default(uuid())
+  name        String
+  description String?
+
+  doctorId String?
+  doctor   Doctor? @relation(fields: [doctorId], references: [id])
+
+  patientId String?
+  patient   Patient? @relation(fields: [patientId], references: [id])
+
+  drugs Drug[]
+
+  removed   Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+/// --> DRUG CATEGORY <--
+
+/// --> DRUG CATEGORY <--
+
+/// one doctor can write more than one prescription to one patient, and the prescription contains a list of drugs. 
+/// However, a patient can have multiple prescriptions from the same doctor, a doctor can write multiple prescriptions for the same patient, and a drug can be part of multiple prescriptions.
+/// prescription can contain multiple drugs

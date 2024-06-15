@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+        "target": "es2016",
+        "module": "commonjs",
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        "strict": true,
+        "skipLibCheck": true,
+        "baseUrl": "./src/",
+        "rootDir": "./src",
+        "outDir": "dist",
+        "noImplicitAny": true,
+        "paths": {
+            "@/*": ["*"]
+            // "@/resources/*": ["resources/*"],
+            // "@/utils/*": ["utils/*"],
+            // "@/middleware/*": ["middleware/*"]
+        }
+    },
+    "include": ["src/**/*"],
+    "exclude": ["node_modules", "dist", "src/docs/*", "src/logs/*", "src/__test__/*"]
+}

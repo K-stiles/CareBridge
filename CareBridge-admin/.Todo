@@ -1,0 +1,19 @@
+email: beda@gmail.com
+password: 123456789
+
+
+i have given it a loading ui to improve the user experience in terms of loading states.
+Appointments Table
+doctor suggestions
+
+
+TODO:
+    ADMIN FUNCTIONS
+    - integrate calendar on page
+    - add card shimmer
+    - add graph shimmer
+    - add table shimmer
+
+    - Doctors page will have
+        - Top Doctors
+        - Popular Doctors

@@ -1,0 +1,42 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .section-min-height {
+    @apply min-h-[calc(100vh_-_5rem)];
+  }
+  .sidenav-height {
+    @apply h-[calc(100vh_-_90px)];
+  }
+  .notifdisplay-height {
+    height: calc(100vh - 120px);
+  }
+  .expand {
+    @apply max-w-[calc(100vw_-_16rem)] w-full left-64 duration-300;
+  }
+  .contract {
+    @apply max-w-[calc(100vw_-_4rem)]  w-full left-16 duration-300;
+  }
+  .grid-c {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+  /* Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .chat-height {
+    @apply h-[calc(100vh_-_8.125rem)] lg:h-[calc(100vh_-_5.625rem)];
+  }
+  .inbox-height {
+    @apply h-[calc(100vh_-_8.125rem)] lg:h-[calc(100vh_-_5.625rem)];
+  }
+}

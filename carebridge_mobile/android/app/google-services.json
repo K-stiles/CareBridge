@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "779299714645",
+    "project_id": "hospitalzego-app",
+    "storage_bucket": "hospitalzego-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:779299714645:android:21af032ee1dc066335c6dc",
+        "android_client_info": {
+          "package_name": "com.carebridge.kwakustiles.carebridge_mobile"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvW70Ct9ZFxMA600qx8wKioBNQzd-MaaA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,61 @@
+interface UserInfo extends User {
+  id: string;
+}
+
+export const UsertbData: UserInfo[] = [
+  {
+    id: "nhuwyegiajsbzn",
+    username: "Dan daniles",
+    email: "dan@yahoo.com",
+    firstname: "Jennifer",
+    lastname: "Appiah",
+    age: 26,
+    gender: "FEMALE",
+    role: "User_200",
+    profile: "",
+  },
+  {
+    id: "nwfeewhuwyegiajsbzn",
+    username: "Dan daniles",
+    email: "derhrgrbfd@yahoo.com",
+    firstname: "Jennifer",
+    lastname: "Appiah",
+    age: 26,
+    gender: "FEMALE",
+    role: "User_200",
+    profile: "",
+  },
+  {
+    id: "nhuwywesdegiajsbzn",
+    username: "Dan daniles",
+    email: "dvfbgtnh@yahoo.com",
+    firstname: "Jennifer",
+    lastname: "Appiah",
+    age: 26,
+    gender: "FEMALE",
+    role: "User_200",
+    profile: "",
+  },
+  {
+    id: "nsdvsdhuwyegiajsbzn",
+    username: "Dan daniles",
+    email: "tnhgbr@yahoo.com",
+    firstname: "Jennifer",
+    lastname: "Appiah",
+    age: 26,
+    gender: "FEMALE",
+    role: "User_200",
+    profile: "",
+  },
+  {
+    id: "deffrenhuwyegiajsbzn",
+    username: "Dan daniles",
+    email: "bgrtnhmj@yahoo.com",
+    firstname: "Jennifer",
+    lastname: "Appiah",
+    age: 26,
+    gender: "FEMALE",
+    role: "User_200",
+    profile: "",
+  },
+];
